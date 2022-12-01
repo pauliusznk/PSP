@@ -56,6 +56,7 @@ public class Main {
                 else if (i == 0) System.out.print(j + "\t");
                 else if (j == 0) System.out.print(i + "\t");
                 else if (visibleSquare[i][j] == 111) System.out.print("F" + "\t");
+                else if(visibleSquare[i][j] == 0 && hiddenSquare[i][j] != 999) System.out.print(" " + "\t");
                 else System.out.print(visibleSquare[i][j] + "\t");
             }
             System.out.print("\n");
@@ -81,57 +82,55 @@ public class Main {
     }
 
     public static void clearTiles(int x, int y){
-        if(hiddenSquare[y][x] != 0) {
-            if(coordinatesCheck(x + 1, y) && hiddenSquare[y][x + 1] < 9){
-                visibleSquare[y][x + 1] = hiddenSquare[y][x + 1];
-                hiddenSquare[y][x + 1] = 999;
-            }
-            if(coordinatesCheck(x + 1, y - 1) && hiddenSquare[y - 1][x + 1] < 9){
-                visibleSquare[y - 1][x + 1] = hiddenSquare[y - 1][x + 1];
-                hiddenSquare[y - 1][x + 1] = 999;
-            }
-            if(coordinatesCheck(x + 1, y + 1) && hiddenSquare[y + 1][x + 1] < 9){
-                visibleSquare[y + 1][x + 1] = hiddenSquare[y + 1][x + 1];
-                hiddenSquare[y + 1][x + 1] = 999;
-            }
-            if (coordinatesCheck(x - 1, y) && hiddenSquare[y][x - 1] < 9) {
-                visibleSquare[y][x - 1] = hiddenSquare[y][x - 1];
-                hiddenSquare[y][x - 1] = 999;
-            }
-            if(coordinatesCheck(x - 1, y - 1) && hiddenSquare[y - 1][x - 1] < 9){
-                visibleSquare[y - 1][x - 1] = hiddenSquare[y - 1][x - 1];
-                hiddenSquare[y - 1][x - 1] = 999;
-            }
-            if(coordinatesCheck(x - 1, y + 1) && hiddenSquare[y + 1][x - 1] < 9){
-                visibleSquare[y + 1][x - 1] = hiddenSquare[y + 1][x - 1];
-                hiddenSquare[y + 1][x - 1] = 999;
-            }
-            if(coordinatesCheck(x, y - 1) && hiddenSquare[y - 1][x] < 9){
-                visibleSquare[y - 1][x] = hiddenSquare[y - 1][x];
-                hiddenSquare[y - 1][x] = 999;
-            }
-            if(coordinatesCheck(x, y + 1) && hiddenSquare[y + 1][x] < 9){
-                visibleSquare[y + 1][x] = hiddenSquare[y + 1][x];
-                hiddenSquare[y + 1][x] = 999;
-            }
-            return;
-        }
+
         visibleSquare[y][x] = hiddenSquare[y][x];
         hiddenSquare[y][x] = 999;
-        if (coordinatesCheck(x + 1, y)) clearTiles(x + 1, y);
-        if (coordinatesCheck(x + 1, y + 1)) clearTiles(x + 1, y + 1);
-        if (coordinatesCheck(x + 1, y - 1)) clearTiles(x + 1, y - 1);
-        if (coordinatesCheck(x - 1, y)) clearTiles(x - 1, y);
-        if (coordinatesCheck(x - 1, y + 1)) clearTiles(x - 1, y + 1);
-        if (coordinatesCheck(x - 1, y - 1)) clearTiles(x - 1, y - 1);
-        if (coordinatesCheck(x, y - 1)) clearTiles(x, y - 1);
-        if (coordinatesCheck(x, y + 1)) clearTiles(x, y + 1);
+        if(coordinatesCheck(x + 1, y) && hiddenSquare[y][x + 1] > 0 && hiddenSquare[y][x + 1] < 9){
+            visibleSquare[y][x + 1] = hiddenSquare[y][x + 1];
+            hiddenSquare[y][x + 1] = 999;
+        }
+        if (coordinatesCheck(x + 1, y + 1) && hiddenSquare[y + 1][x + 1] > 0 && hiddenSquare[y + 1][x + 1] < 9){
+            visibleSquare[y + 1][x + 1] = hiddenSquare[y + 1][x + 1];
+            hiddenSquare[y + 1][x + 1] = 999;
+        }
+        if (coordinatesCheck(x + 1, y - 1) && hiddenSquare[y - 1][x + 1] > 0 &&  hiddenSquare[y - 1][x + 1] < 9){
+            visibleSquare[y - 1][x + 1] = hiddenSquare[y - 1][x + 1];
+            hiddenSquare[y - 1][x + 1] = 999;
+        }
+        if (coordinatesCheck(x - 1, y) && hiddenSquare[y][x - 1] > 0 && hiddenSquare[y][x - 1] < 9){
+            visibleSquare[y][x - 1] = hiddenSquare[y][x - 1];
+            hiddenSquare[y][x - 1]  = 999;
+        }
+        if (coordinatesCheck(x - 1, y + 1) && hiddenSquare[y + 1][x - 1] > 0 && hiddenSquare[y + 1][x - 1] < 9){
+            visibleSquare[y + 1][x - 1] = hiddenSquare[y + 1][x - 1];
+            hiddenSquare[y + 1][x - 1]  = 999;
+        }
+        if (coordinatesCheck(x - 1, y - 1) && hiddenSquare[y - 1][x - 1] > 0 && hiddenSquare[y - 1][x - 1] < 9){
+            visibleSquare[y - 1][x - 1] = hiddenSquare[y - 1][x - 1];
+            hiddenSquare[y - 1][x - 1] = 999;
+        }
+        if (coordinatesCheck(x, y - 1) && hiddenSquare[y - 1][x] > 0 && hiddenSquare[y - 1][x] < 9){
+            visibleSquare[y - 1][x] = hiddenSquare[y - 1][x];
+            hiddenSquare[y - 1][x] = 999;
+        }
+        if (coordinatesCheck(x, y + 1) && hiddenSquare[y + 1][x] > 0 && hiddenSquare[y + 1][x] < 9){
+            visibleSquare[y + 1][x] = hiddenSquare[y + 1][x];
+            hiddenSquare[y + 1][x] = 999;
+        }
+        if (coordinatesCheck(x + 1, y) && hiddenSquare[y][x + 1] == 0) clearTiles(x + 1, y);
+        if (coordinatesCheck(x + 1, y + 1) && hiddenSquare[y + 1][x + 1] == 0) clearTiles(x + 1, y + 1);
+        if (coordinatesCheck(x + 1, y - 1) && hiddenSquare[y - 1][x + 1] == 0) clearTiles(x + 1, y - 1);
+        if (coordinatesCheck(x - 1, y) && hiddenSquare[y][x - 1] == 0) clearTiles(x - 1, y);
+        if (coordinatesCheck(x - 1, y + 1) && hiddenSquare[y + 1][x - 1] == 0) clearTiles(x - 1, y + 1);
+        if (coordinatesCheck(x - 1, y - 1) && hiddenSquare[y - 1][x - 1] == 0) clearTiles(x - 1, y - 1);
+        if (coordinatesCheck(x, y - 1) && hiddenSquare[y - 1][x] == 0) clearTiles(x, y - 1);
+        if (coordinatesCheck(x, y + 1) && hiddenSquare[y + 1][x] == 0) clearTiles(x, y + 1);
     }
         public static boolean gameWin(){
         for(int i = 1; i < 10; i++)
         {
             for(int j = 1; j < 10; j++){
-                if(hiddenSquare[i][j] == 0) return false;
+                if(hiddenSquare[i][j] != 99 && hiddenSquare[i][j] != 999) return false;
             }
         }
         return true;
@@ -141,10 +140,9 @@ public class Main {
         boolean gameIsGoing = true;
         boolean gameEnd = false;
         int moveCount = 0;
-        int numberOfBombs = 9;
+        int numberOfBombs = 10;
         while (gameIsGoing) {
 
-            printHiddenTable();
             printVisibleTable();
             Scanner scan = new Scanner(System.in);
             System.out.println("Flag (F) or press (P) the tile");
@@ -158,12 +156,33 @@ public class Main {
                 System.out.println("Wrong input");
             }
             else{
-                if(moveCount == 0) fillTable(numberOfBombs, x, y);
-                if(answer.toLowerCase().equals("f")) visibleSquare[y][x] = 111;
+                if(moveCount == 0){
+                    fillTable(numberOfBombs, x, y);
+                    if(hiddenSquare[y][x] > 0 && hiddenSquare[y][x] < 9){
+                        visibleSquare[y][x] = hiddenSquare[y][x];
+                        hiddenSquare[y][x] = 999;
+                    }
+                    else {
+                        clearTiles(x, y);
+                    }
+                }
+                if(answer.toLowerCase().equals("f")){
+                    if(visibleSquare[y][x] == 111) visibleSquare[y][x] = 0;
+                    else visibleSquare[y][x] = 111;
+                }
                 else{
                     if(hiddenSquare[y][x] == 99) gameEnd = true;
+                    else if(hiddenSquare[y][x] == 999 && moveCount > 0) {
+                        System.out.println("Square X: " + x + "  Y: " + y + " is already revealed.");
+                    }
                     else if(moveCount > 0){
-                        clearTiles(x, y);
+                        if(hiddenSquare[y][x] > 0 && hiddenSquare[y][x] < 9){
+                            visibleSquare[y][x] = hiddenSquare[y][x];
+                            hiddenSquare[y][x] = 999;
+                        }
+                        else{
+                            clearTiles(x, y);
+                        }
                     }
                 }
             }
