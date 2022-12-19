@@ -2,10 +2,10 @@ import java.beans.Visibility;
 import java.util.Scanner;
 
 public class Game {
-
     private static HiddenBoard hiddenBoard;
     private static VisibleBoard visibleBoard;
-    public static void start(){
+
+    public static void start() {
         visibleBoard = new VisibleBoard();
         int[][] hiddenSquare = hiddenBoard.getSquare();
         int[][] visibleSquare = visibleBoard.getSquare();
@@ -14,13 +14,7 @@ public class Game {
         int moveCount = 0;
         int numberOfBombs = 10;
         while (gameIsGoing) {
-
-            visibleBoard.print();
-            System.out.println('\n');
-            if(moveCount > 0) {
-
-                hiddenBoard.print();
-            }
+            visibleBoard.print(hiddenSquare);
             Scanner scan = new Scanner(System.in);
             System.out.println("Flag (F) or press (P) the tile");
             String answer = scan.nextLine();
@@ -29,35 +23,30 @@ public class Game {
             System.out.println("Y:");
             int y = Integer.parseInt(scan.nextLine());
 
-            if(!inputCheck(x, y, answer)){
+            if (!inputCheck(x, y, answer)) {
                 System.out.println("Wrong input");
-            }
-            else{
-                if(moveCount == 0){
+            } else {
+                if (moveCount == 0) {
                     hiddenBoard = new HiddenBoard(numberOfBombs, x, y);
-                    if(hiddenSquare[y][x] > 0 && hiddenSquare[y][x] < 9){
+                    if (hiddenSquare[y][x] > 0 && hiddenSquare[y][x] < 9) {
                         visibleSquare[y][x] = hiddenSquare[y][x];
                         hiddenSquare[y][x] = 999;
-                    }
-                    else {
+                    } else {
                         clearTiles(x, y);
                     }
                 }
-                if(answer.toLowerCase().equals("f")){
-                    if(visibleSquare[y][x] == 111) visibleSquare[y][x] = 0;
+                if (answer.toLowerCase().equals("f")) {
+                    if (visibleSquare[y][x] == 111) visibleSquare[y][x] = 0;
                     else visibleSquare[y][x] = 111;
-                }
-                else{
-                    if(hiddenSquare[y][x] == 99) gameEnd = true;
-                    else if(hiddenSquare[y][x] == 999 && moveCount > 0) {
+                } else {
+                    if (hiddenSquare[y][x] == 99) gameEnd = true;
+                    else if (hiddenSquare[y][x] == 999 && moveCount > 0) {
                         System.out.println("Square X: " + x + "  Y: " + y + " is already revealed.");
-                    }
-                    else if(moveCount > 0){
-                        if(hiddenSquare[y][x] > 0 && hiddenSquare[y][x] < 9){
+                    } else if (moveCount > 0) {
+                        if (hiddenSquare[y][x] > 0 && hiddenSquare[y][x] < 9) {
                             visibleSquare[y][x] = hiddenSquare[y][x];
                             hiddenSquare[y][x] = 999;
-                        }
-                        else{
+                        } else {
                             clearTiles(x, y);
                         }
                     }
@@ -75,69 +64,73 @@ public class Game {
             moveCount++;
         }
     }
-    public static boolean gameWin(){
+
+    public static boolean gameWin() {
         int[][] hiddenSquare = hiddenBoard.getSquare();
-        for(int i = 1; i < 10; i++)
-        {
-            for(int j = 1; j < 10; j++){
-                if(hiddenSquare[i][j] != 99 && hiddenSquare[i][j] != 999) return false;
+        for (int i = 1; i < 10; i++) {
+            for (int j = 1; j < 10; j++) {
+                if (hiddenSquare[i][j] != 99 && hiddenSquare[i][j] != 999) return false;
             }
         }
         return true;
     }
-    public static boolean coordinatesCheck(int x, int y){
+
+    public static boolean coordinatesCheck(int x, int y) {
         if (x >= 10) return false;
         if (y >= 10) return false;
         if (y < 1) return false;
         if (x < 1) return false;
         return true;
     }
+
     public static boolean inputCheck(int x, int y, String symbol) {
-        if (!coordinatesCheck(x, y) || (!symbol.toLowerCase().equals("f") && !symbol.toLowerCase().equals("p"))) return false;
+        if (!coordinatesCheck(x, y) || (!symbol.toLowerCase().equals("f") && !symbol.toLowerCase().equals("p")))
+            return false;
         return true;
     }
-    public static void clearTiles(int x, int y){
+
+    public static void clearTiles(int x, int y) {
         int[][] hiddenSquare = hiddenBoard.getSquare();
         int[][] visibleSquare = visibleBoard.getSquare();
         visibleSquare[y][x] = hiddenSquare[y][x];
         hiddenSquare[y][x] = 999;
         setBoards(visibleSquare, hiddenSquare);
-        if(coordinatesCheck(x + 1, y) && hiddenSquare[y][x + 1] > 0 && hiddenSquare[y][x + 1] < 9){
+        if (coordinatesCheck(x + 1, y) && hiddenSquare[y][x + 1] > 0 && hiddenSquare[y][x + 1] < 9) {
             visibleSquare[y][x + 1] = hiddenSquare[y][x + 1];
             hiddenSquare[y][x + 1] = 999;
             setBoards(visibleSquare, hiddenSquare);
         }
-        if (coordinatesCheck(x + 1, y + 1) && hiddenSquare[y + 1][x + 1] > 0 && hiddenSquare[y + 1][x + 1] < 9){
+        if (coordinatesCheck(x + 1, y + 1) && hiddenSquare[y + 1][x + 1] > 0 && hiddenSquare[y + 1][x + 1] < 9) {
             visibleSquare[y + 1][x + 1] = hiddenSquare[y + 1][x + 1];
             hiddenSquare[y + 1][x + 1] = 999;
             setBoards(visibleSquare, hiddenSquare);
         }
-        if (coordinatesCheck(x + 1, y - 1) && hiddenSquare[y - 1][x + 1] > 0 &&  hiddenSquare[y - 1][x + 1] < 9){
+        if (coordinatesCheck(x + 1, y - 1) && hiddenSquare[y - 1][x + 1] > 0 && hiddenSquare[y - 1][x + 1] < 9) {
             visibleSquare[y - 1][x + 1] = hiddenSquare[y - 1][x + 1];
             hiddenSquare[y - 1][x + 1] = 999;
             setBoards(visibleSquare, hiddenSquare);
         }
-        if (coordinatesCheck(x - 1, y) && hiddenSquare[y][x - 1] > 0 && hiddenSquare[y][x - 1] < 9){
+        if (coordinatesCheck(x - 1, y) && hiddenSquare[y][x - 1] > 0 && hiddenSquare[y][x - 1] < 9) {
             visibleSquare[y][x - 1] = hiddenSquare[y][x - 1];
-            hiddenSquare[y][x - 1]  = 999;
+            hiddenSquare[y][x - 1] = 999;
             setBoards(visibleSquare, hiddenSquare);
         }
-        if (coordinatesCheck(x - 1, y + 1) && hiddenSquare[y + 1][x - 1] > 0 && hiddenSquare[y + 1][x - 1] < 9){
+        if (coordinatesCheck(x - 1, y + 1) && hiddenSquare[y + 1][x - 1] > 0 && hiddenSquare[y + 1][x - 1] < 9) {
             visibleSquare[y + 1][x - 1] = hiddenSquare[y + 1][x - 1];
-            hiddenSquare[y + 1][x - 1]  = 999;
+            hiddenSquare[y + 1][x - 1] = 999;
             setBoards(visibleSquare, hiddenSquare);
         }
-        if (coordinatesCheck(x - 1, y - 1) && hiddenSquare[y - 1][x - 1] > 0 && hiddenSquare[y - 1][x - 1] < 9){
+        if (coordinatesCheck(x - 1, y - 1) && hiddenSquare[y - 1][x - 1] > 0 && hiddenSquare[y - 1][x - 1] < 9) {
             visibleSquare[y - 1][x - 1] = hiddenSquare[y - 1][x - 1];
             hiddenSquare[y - 1][x - 1] = 999;
             setBoards(visibleSquare, hiddenSquare);
         }
-        if (coordinatesCheck(x, y - 1) && hiddenSquare[y - 1][x] > 0 && hiddenSquare[y - 1][x] < 9){
+        if (coordinatesCheck(x, y - 1) && hiddenSquare[y - 1][x] > 0 && hiddenSquare[y - 1][x] < 9) {
             visibleSquare[y - 1][x] = hiddenSquare[y - 1][x];
             hiddenSquare[y - 1][x] = 999;
             setBoards(visibleSquare, hiddenSquare);
         }
-        if (coordinatesCheck(x, y + 1) && hiddenSquare[y + 1][x] > 0 && hiddenSquare[y + 1][x] < 9){
+        if (coordinatesCheck(x, y + 1) && hiddenSquare[y + 1][x] > 0 && hiddenSquare[y + 1][x] < 9) {
             visibleSquare[y + 1][x] = hiddenSquare[y + 1][x];
             hiddenSquare[y + 1][x] = 999;
             setBoards(visibleSquare, hiddenSquare);
@@ -151,7 +144,8 @@ public class Game {
         if (coordinatesCheck(x, y - 1) && hiddenSquare[y - 1][x] == 0) clearTiles(x, y - 1);
         if (coordinatesCheck(x, y + 1) && hiddenSquare[y + 1][x] == 0) clearTiles(x, y + 1);
     }
-    public static void setBoards(int[][] visibleSquare, int[][] hiddenSquare){
+
+    public static void setBoards(int[][] visibleSquare, int[][] hiddenSquare) {
         hiddenBoard.setSquare(hiddenSquare);
         visibleBoard.setSquare(visibleSquare);
 

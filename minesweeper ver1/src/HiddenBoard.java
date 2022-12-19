@@ -1,6 +1,6 @@
 import java.util.Random;
 
-public class HiddenBoard{
+public class HiddenBoard {
     protected static int[][] Square = new int[10][10];
 
     public HiddenBoard(int numberOfBombs, int firstMoveX, int firstMoveY) {
@@ -20,10 +20,11 @@ public class HiddenBoard{
             }
         }
     }
-    public void calculateNeighbours(){
-        for(int i = 1; i < 10; i++){
-            for(int j = 1; j < 10; j++){
-                if(Square[j][i] == 99) {
+
+    public void calculateNeighbours() {
+        for (int i = 1; i < 10; i++) {
+            for (int j = 1; j < 10; j++) {
+                if (Square[j][i] == 99) {
                     if (Game.coordinatesCheck(j + 1, i) && Square[j + 1][i] != 99)
                         Square[j + 1][i]++;
                     if (Game.coordinatesCheck(j + 1, i - 1) && Square[j + 1][i - 1] != 99)
@@ -44,6 +45,7 @@ public class HiddenBoard{
             }
         }
     }
+
     public static int[][] getSquare() {
         return Square;
     }
@@ -52,7 +54,7 @@ public class HiddenBoard{
         Square = square;
     }
 
-    public void print(){
+    public void print() {
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
                 if (i == 0 && j == 0) System.out.print(0 + "\t");
