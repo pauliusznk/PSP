@@ -21,31 +21,32 @@ public class HiddenBoard {
         }
     }
 
-    public void calculateNeighbours() {
-        for (int i = 1; i < 10; i++) {
-            for (int j = 1; j < 10; j++) {
-                if (Square[j][i] == 99) {
-                    if (Game.coordinatesCheck(j + 1, i) && Square[j + 1][i] != 99)
-                        Square[j + 1][i]++;
-                    if (Game.coordinatesCheck(j + 1, i - 1) && Square[j + 1][i - 1] != 99)
-                        Square[j + 1][i - 1]++;
-                    if (Game.coordinatesCheck(j + 1, i + 1) && Square[j + 1][i + 1] != 99)
-                        Square[j + 1][i + 1]++;
-                    if (Game.coordinatesCheck(j - 1, i) && Square[j - 1][i] != 99)
-                        Square[j - 1][i]++;
-                    if (Game.coordinatesCheck(j - 1, i - 1) && Square[j - 1][i - 1] != 99)
-                        Square[j - 1][i - 1]++;
-                    if (Game.coordinatesCheck(j - 1, i + 1) && Square[j - 1][i + 1] != 99)
-                        Square[j - 1][i + 1]++;
-                    if (Game.coordinatesCheck(j, i - 1) && Square[j][i - 1] != 99)
-                        Square[j][i - 1]++;
-                    if (Game.coordinatesCheck(j, i + 1) && Square[j][i + 1] != 99)
-                        Square[j][i + 1]++;
-                }
+public void calculateNeighbours() {
+    for (int row = 1; row < 10; row++) {
+        for (int col = 1; col < 10; col++) {
+            if (Square[col][row] == 99) {
+                incrementNeighbouringCells(col, row);
             }
         }
     }
+}
 
+    private void incrementNeighbouringCells(int col, int row) {
+        incrementIfValid(col + 1, row);
+        incrementIfValid(col + 1, row - 1);
+        incrementIfValid(col + 1, row + 1);
+        incrementIfValid(col - 1, row);
+        incrementIfValid(col - 1, row - 1);
+        incrementIfValid(col - 1, row + 1);
+        incrementIfValid(col, row - 1);
+        incrementIfValid(col, row + 1);
+    }
+
+    private void incrementIfValid(int col, int row) {
+        if (Game.coordinatesCheck(col, row) && Square[col][row] != 99) {
+            Square[col][row]++;
+        }
+    }
     public static int[][] getSquare() {
         return Square;
     }
