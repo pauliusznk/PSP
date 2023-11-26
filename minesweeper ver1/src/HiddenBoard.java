@@ -9,8 +9,8 @@ public class HiddenBoard {
     }
 
     public static void fillTableWithBombs(int numberOfBombs, int x, int y) {
+        Random rand = new Random();
         while (numberOfBombs > 0) {
-            Random rand = new Random();
             int tempX = rand.nextInt(10);
             int tempY = rand.nextInt(10);
             if (tempX != x && tempY != y && tempX > 0 && tempY > 0 && Square[tempY][tempX] != 99) {

@@ -1,4 +1,3 @@
-import java.beans.Visibility;
 import java.util.Scanner;
 
 public class Game {
@@ -53,7 +52,7 @@ public class Game {
             initializeHiddenBoard(x, y);
         }
 
-        if (answer.toLowerCase().equals("f")) {
+        if (answer.equalsIgnoreCase("f")) {
             toggleFlag(x, y);
         } else {
             revealTile(x, y);
@@ -114,7 +113,7 @@ public class Game {
     }
 
     public static boolean inputCheck(int x, int y, String symbol) {
-        if (!coordinatesCheck(x, y) || (!symbol.toLowerCase().equals("f") && !symbol.toLowerCase().equals("p")))
+        if (!coordinatesCheck(x, y) || (!symbol.equalsIgnoreCase("f") && !symbol.toLowerCase().equals("p")))
             return false;
         return true;
     }
