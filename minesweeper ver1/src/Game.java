@@ -130,7 +130,7 @@ public class Game {
         clearAdjacentTiles(x, y - 1, hiddenSquare, visibleSquare);
     }
 
-    private static void clearTile(int x, int y, int[][] hiddenSquare, int[][] visibleSquare) {
+    public static void clearTile(int x, int y, int[][] hiddenSquare, int[][] visibleSquare) {
         if (coordinatesCheck(x, y) && hiddenSquare[y][x] == 0) {
             visibleSquare[y][x] = hiddenSquare[y][x];
             hiddenSquare[y][x] = 999;

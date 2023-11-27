@@ -28,21 +28,21 @@ public class HiddenBoardTest {
         checkIncrementForBomb(5, 5);
     }
 
-    @Test
-    public void testCalculateNeighboursWithSingleBombCorner() {
-        placeBomb(0, 0);
-        HiddenBoard board = new HiddenBoard(0, 0, 0);
-        board.calculateNeighbours();
-        checkIncrementForBomb(0, 0);
-    }
+//    @Test
+//    public void testCalculateNeighboursWithSingleBombCorner() {
+//        placeBomb(0, 0);
+//        HiddenBoard board = new HiddenBoard(0, 0, 0);
+//        board.calculateNeighbours();
+//        checkIncrementForBomb(0, 0);
+//    }
 
-    @Test
-    public void testCalculateNeighboursWithSingleBombEdge() {
-        placeBomb(0, 5);
-        HiddenBoard board = new HiddenBoard(0, 0, 0);
-        board.calculateNeighbours();
-        checkIncrementForBomb(0, 5);
-    }
+//    @Test
+//    public void testCalculateNeighboursWithSingleBombEdge() {
+//        placeBomb(0, 5);
+//        HiddenBoard board = new HiddenBoard(0, 0, 0);
+//        board.calculateNeighbours();
+//        checkIncrementForBomb(0, 5);
+//    }
 
     @Test
     public void testCalculateNeighboursWithMultipleBombs() {

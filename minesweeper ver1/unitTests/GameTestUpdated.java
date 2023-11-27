@@ -1,3 +1,4 @@
+import org.junit.After;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.lang.reflect.Field;
@@ -5,6 +6,61 @@ import java.util.Scanner;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GameTestUpdated {
+
+    @Test
+    public void testClearTiles_NoBombs() {
+        HiddenBoard hiddenBoard = new HiddenBoard(0, 0, 0);
+        VisibleBoard visibleBoard = new VisibleBoard();
+        Game.setBoards(visibleBoard.getSquare(), hiddenBoard.getSquare());
+
+        // Call the method you want to test
+        Game.clearTiles(1, 1);
+
+        // Make assertions based on the expected outcome
+        // In a scenario with no bombs, clearTiles should reveal the tile at (1, 1)
+        assertEquals(1, visibleBoard.getSquare()[1][1]);
+    }
+
+    public class GameTest {
+
+        @Test
+        public void testClearTiles_Bomb() throws NoSuchFieldException, IllegalAccessException {
+            // Create a test scenario
+            HiddenBoard hiddenBoard = new HiddenBoard(1, 0, 0); // One bomb at (0, 0)
+            VisibleBoard visibleBoard = new VisibleBoard();
+            Game.setBoards(visibleBoard.getSquare(), hiddenBoard.getSquare());
+
+            // Use reflection to access the private static variable
+            try {
+                Field field = Game.class.getDeclaredField("gameEnd");
+                field.setAccessible(true);
+
+                // Call the method you want to test
+                Game.clearTiles(1, 1);
+
+                // Make assertions based on the expected outcome
+                // In a scenario with a bomb, clearTiles should end the game
+                assertTrue((boolean) field.get(null));
+            } catch (Exception e) {
+                fail("Exception occurred: " + e.getMessage());
+            }
+        }
+    }
+
+    @Test
+    public void testClearTile_ZeroNeighboringBombs() {
+        HiddenBoard hiddenBoard = new HiddenBoard(0, 0, 0);
+        VisibleBoard visibleBoard = new VisibleBoard();
+        Game.setBoards(visibleBoard.getSquare(), hiddenBoard.getSquare());
+
+        // Call the method you want to test
+        Game.clearTile(1, 1, hiddenBoard.getSquare(), visibleBoard.getSquare());
+
+        // Make assertions based on the expected outcome
+        // In a scenario with no neighboring bombs, clearTile should reveal the tile at (1, 1)
+        assertEquals(1, visibleBoard.getSquare()[1][1]);
+    }
+
 
     @Test
     public void testCoordinatesCheck() {
@@ -45,11 +101,6 @@ public class GameTestUpdated {
     }
 
     @Test
-    public void testMakeMove() {
-        // TODO: Write tests for the makeMove method
-    }
-
-    @Test
     public void testToggleFlag() {
         int[][] visibleSquare = new int[3][3];
 
@@ -85,5 +136,4 @@ public class GameTestUpdated {
 
         assertArrayEquals(expectedVisibleSquare, Game.visibleBoard.getSquare());
     }
-
 }
